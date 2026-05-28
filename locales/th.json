@@ -85,7 +85,11 @@
       "permissionDenied": "คุณไม่มีสิทธิ์ในการดำเนินการนี้",
       "interpretationFailed": "ไม่สามารถสร้างการแปลความ",
       "tryAgain": "กรุณาลองใหม่ในภายหลัง"
-    }
+    },
+    "loadMore": "โหลดเพิ่ม",
+    "noSessions": "ยังไม่มีเซสชัน",
+    "sessionComplete": "เซสชันเสร็จสมบูรณ์",
+    "sessionHistory": "ประวัติเซสชัน"
   },
   "oracle": {
     "cardClickHint": "คลิกเพื่อเปิดเผย",
@@ -108,6 +112,7 @@
     "retry": "ลองใหม่",
     "loading": "กำลังโหลด...",
     "error": "ข้อผิดพลาด",
-    "refresh": "รีเฟรช"
+    "refresh": "รีเฟรช",
+    "close": "ปิด"
   }
 }

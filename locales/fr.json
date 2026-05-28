@@ -85,7 +85,11 @@
       "permissionDenied": "Vous n'avez pas la permission pour cette opération",
       "interpretationFailed": "Erreur lors de la génération de l'interprétation",
       "tryAgain": "Veuillez réessayer plus tard"
-    }
+    },
+    "loadMore": "Voir plus",
+    "noSessions": "Aucune session",
+    "sessionComplete": "Session terminée",
+    "sessionHistory": "Historique des sessions"
   },
   "oracle": {
     "cardClickHint": "Cliquez pour révéler",
@@ -108,6 +112,7 @@
     "retry": "Réessayer",
     "loading": "Chargement...",
     "error": "Erreur",
-    "refresh": "Actualiser"
+    "refresh": "Actualiser",
+    "close": "Fermer"
   }
 }

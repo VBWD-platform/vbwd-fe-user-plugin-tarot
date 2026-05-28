@@ -85,7 +85,11 @@
       "permissionDenied": "您无权进行此操作",
       "interpretationFailed": "生成解释失败",
       "tryAgain": "请稍后重试"
-    }
+    },
+    "loadMore": "加载更多",
+    "noSessions": "暂无会话",
+    "sessionComplete": "会话已完成",
+    "sessionHistory": "会话历史"
   },
   "oracle": {
     "cardClickHint": "单击以显示",
@@ -108,6 +112,7 @@
     "retry": "重试",
     "loading": "加载中...",
     "error": "错误",
-    "refresh": "刷新"
+    "refresh": "刷新",
+    "close": "关闭"
   }
 }

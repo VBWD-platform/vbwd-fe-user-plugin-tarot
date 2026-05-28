@@ -85,7 +85,11 @@
       "permissionDenied": "You don't have permission for this operation",
       "interpretationFailed": "Failed to generate interpretation",
       "tryAgain": "Please try again later"
-    }
+    },
+    "loadMore": "Load more",
+    "noSessions": "No sessions yet",
+    "sessionComplete": "Session complete",
+    "sessionHistory": "Session history"
   },
   "oracle": {
     "cardClickHint": "Click to reveal",
@@ -108,6 +112,7 @@
     "retry": "Retry",
     "loading": "Loading...",
     "error": "Error",
-    "refresh": "Refresh"
+    "refresh": "Refresh",
+    "close": "Close"
   }
 }

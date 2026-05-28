@@ -85,7 +85,11 @@
       "permissionDenied": "この操作の権限がありません",
       "interpretationFailed": "解釈の生成に失敗しました",
       "tryAgain": "後でもう一度試してください"
-    }
+    },
+    "loadMore": "もっと読み込む",
+    "noSessions": "まだセッションがありません",
+    "sessionComplete": "セッション完了",
+    "sessionHistory": "セッション履歴"
   },
   "oracle": {
     "cardClickHint": "クリックして表示",
@@ -108,6 +112,7 @@
     "retry": "再試行",
     "loading": "読み込み中...",
     "error": "エラー",
-    "refresh": "更新"
+    "refresh": "更新",
+    "close": "閉じる"
   }
 }

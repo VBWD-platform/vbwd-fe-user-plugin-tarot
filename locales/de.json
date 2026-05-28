@@ -81,7 +81,13 @@
       "permissionDenied": "Sie haben keine Berechtigung für diesen Vorgang",
       "interpretationFailed": "Fehler beim Generieren der Interpretation",
       "tryAgain": "Bitte versuchen Sie es später erneut"
-    }
+    },
+    "loadMore": "Mehr laden",
+    "noSessions": "Noch keine Sitzungen",
+    "sessionComplete": "Sitzung abgeschlossen",
+    "sessionHistory": "Sitzungsverlauf",
+    "assistant": "Assistent",
+    "you": "Du"
   },
   "oracle": {
     "cardClickHint": "Klicken zum Offenbaren",
@@ -104,6 +110,7 @@
     "retry": "Erneut versuchen",
     "loading": "Wird geladen...",
     "error": "Fehler",
-    "refresh": "Aktualisieren"
+    "refresh": "Aktualisieren",
+    "close": "Schließen"
   }
 }
