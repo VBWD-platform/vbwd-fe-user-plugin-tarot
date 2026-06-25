@@ -1,8 +1,8 @@
 {
   "nav": {
-    "taro": "タロット"
+    "tarot": "タロット"
   },
-  "taro": {
+  "tarot": {
     "title": "タロットカードリーディング",
     "subtitle": "AI搭載のタロット解釈と洞察を取得",
     "dailyLimits": "日次制限",

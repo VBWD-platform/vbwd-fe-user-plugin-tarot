@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { setActivePinia, createPinia } from 'pinia';
-import { useTaroStore } from '../src/stores/taro';
+import { useTarotStore } from '../src/stores/tarot';
 
 // Mock API client
 vi.mock('@/api', () => ({
@@ -12,7 +12,7 @@ vi.mock('@/api', () => ({
 
 import { api } from '@/api';
 
-describe('Taro Store', () => {
+describe('Tarot Store', () => {
   beforeEach(() => {
     setActivePinia(createPinia());
     vi.clearAllMocks();
@@ -20,7 +20,7 @@ describe('Taro Store', () => {
 
   describe('Initial State', () => {
     it('should have correct initial state', () => {
-      const store = useTaroStore();
+      const store = useTarotStore();
 
       expect(store.currentSession).toBeNull();
       expect(store.sessionHistory).toEqual([]);
@@ -34,7 +34,7 @@ describe('Taro Store', () => {
 
   describe('Getters', () => {
     it('hasActiveSession should return true when currentSession exists', () => {
-      const store = useTaroStore();
+      const store = useTarotStore();
       store.currentSession = {
         session_id: 'test-id',
         status: 'ACTIVE',
@@ -49,12 +49,12 @@ describe('Taro Store', () => {
     });
 
     it('hasActiveSession should return false when currentSession is null', () => {
-      const store = useTaroStore();
+      const store = useTarotStore();
       expect(store.hasActiveSession).toBe(false);
     });
 
     it('sessionTimeRemaining should calculate remaining minutes', () => {
-      const store = useTaroStore();
+      const store = useTarotStore();
       const expiresAt = new Date(Date.now() + 10 * 60000); // 10 minutes
       store.currentSession = {
         session_id: 'test-id',
@@ -72,12 +72,12 @@ describe('Taro Store', () => {
     });
 
     it('sessionTimeRemaining should return 0 if session is null', () => {
-      const store = useTaroStore();
+      const store = useTarotStore();
       expect(store.sessionTimeRemaining).toBe(0);
     });
 
     it('isSessionExpired should return true when session status is EXPIRED', () => {
-      const store = useTaroStore();
+      const store = useTarotStore();
       store.currentSession = {
         session_id: 'test-id',
         status: 'EXPIRED',
@@ -92,7 +92,7 @@ describe('Taro Store', () => {
     });
 
     it('canCreateSession should return true when limit allows', () => {
-      const store = useTaroStore();
+      const store = useTarotStore();
       store.dailyLimits = {
         daily_total: 3,
         daily_remaining: 1,
@@ -105,7 +105,7 @@ describe('Taro Store', () => {
     });
 
     it('canCreateSession should return false when limit exceeded', () => {
-      const store = useTaroStore();
+      const store = useTarotStore();
       store.dailyLimits = {
         daily_total: 3,
         daily_remaining: 0,
@@ -118,7 +118,7 @@ describe('Taro Store', () => {
     });
 
     it('canAddFollowUp should return true when follow-ups available', () => {
-      const store = useTaroStore();
+      const store = useTarotStore();
       store.currentSession = {
         session_id: 'test-id',
         status: 'ACTIVE',
@@ -134,7 +134,7 @@ describe('Taro Store', () => {
     });
 
     it('canAddFollowUp should return false when max follow-ups reached', () => {
-      const store = useTaroStore();
+      const store = useTarotStore();
       store.currentSession = {
         session_id: 'test-id',
         status: 'ACTIVE',
@@ -150,7 +150,7 @@ describe('Taro Store', () => {
     });
 
     it('hasExpiryWarning should return true when time < 3 minutes', () => {
-      const store = useTaroStore();
+      const store = useTarotStore();
       store.currentSession = {
         session_id: 'test-id',
         status: 'ACTIVE',
@@ -165,7 +165,7 @@ describe('Taro Store', () => {
     });
 
     it('hasExpiryWarning should return false when time > 3 minutes', () => {
-      const store = useTaroStore();
+      const store = useTarotStore();
       store.currentSession = {
         session_id: 'test-id',
         status: 'ACTIVE',
@@ -202,10 +202,10 @@ describe('Taro Store', () => {
 
         vi.mocked(api.post).mockResolvedValue(mockResponse);
 
-        const store = useTaroStore();
+        const store = useTarotStore();
         await store.createSession();
 
-        expect(api.post).toHaveBeenCalledWith('/taro/session', {});
+        expect(api.post).toHaveBeenCalledWith('/tarot/session', {});
         expect(store.currentSession).toEqual(mockResponse.session);
         expect(store.loading).toBe(false);
         expect(store.error).toBeNull();
@@ -215,7 +215,7 @@ describe('Taro Store', () => {
         const mockError = new Error('Failed to create session');
         vi.mocked(api.post).mockRejectedValue(mockError);
 
-        const store = useTaroStore();
+        const store = useTarotStore();
         await expect(store.createSession()).rejects.toThrow();
 
         expect(store.error).toContain('Failed to create session');
@@ -223,7 +223,7 @@ describe('Taro Store', () => {
       });
 
       it('should set loading state during creation', async () => {
-        const store = useTaroStore();
+        const store = useTarotStore();
         let loadingDuringCall = false;
 
         vi.mocked(api.post).mockImplementation(async () => {
@@ -250,7 +250,7 @@ describe('Taro Store', () => {
 
         vi.mocked(api.post).mockResolvedValue(mockResponse);
 
-        const store = useTaroStore();
+        const store = useTarotStore();
         store.currentSession = {
           session_id: 'test-session',
           status: 'ACTIVE',
@@ -263,7 +263,7 @@ describe('Taro Store', () => {
 
         await store.addFollowUp('Tell me more', 'SAME_CARDS');
 
-        expect(api.post).toHaveBeenCalledWith('/taro/session/test-session/follow-up', {
+        expect(api.post).toHaveBeenCalledWith('/tarot/session/test-session/follow-up', {
           question: 'Tell me more',
           follow_up_type: 'SAME_CARDS',
         });
@@ -280,7 +280,7 @@ describe('Taro Store', () => {
 
         vi.mocked(api.post).mockResolvedValue(mockResponse);
 
-        const store = useTaroStore();
+        const store = useTarotStore();
         store.currentSession = {
           session_id: 'test-session',
           status: 'ACTIVE',
@@ -293,7 +293,7 @@ describe('Taro Store', () => {
 
         await store.addFollowUp('Show me more', 'ADDITIONAL');
 
-        expect(api.post).toHaveBeenCalledWith('/taro/session/test-session/follow-up', {
+        expect(api.post).toHaveBeenCalledWith('/tarot/session/test-session/follow-up', {
           question: 'Show me more',
           follow_up_type: 'ADDITIONAL',
         });
@@ -309,7 +309,7 @@ describe('Taro Store', () => {
 
         vi.mocked(api.post).mockResolvedValue(mockResponse);
 
-        const store = useTaroStore();
+        const store = useTarotStore();
         store.currentSession = {
           session_id: 'test-session',
           status: 'ACTIVE',
@@ -322,7 +322,7 @@ describe('Taro Store', () => {
 
         await store.addFollowUp('New spread', 'NEW_SPREAD');
 
-        expect(api.post).toHaveBeenCalledWith('/taro/session/test-session/follow-up', {
+        expect(api.post).toHaveBeenCalledWith('/tarot/session/test-session/follow-up', {
           question: 'New spread',
           follow_up_type: 'NEW_SPREAD',
         });
@@ -332,7 +332,7 @@ describe('Taro Store', () => {
         const mockError = new Error('Follow-up failed');
         vi.mocked(api.post).mockRejectedValue(mockError);
 
-        const store = useTaroStore();
+        const store = useTarotStore();
         store.currentSession = {
           session_id: 'test-session',
           status: 'ACTIVE',
@@ -373,10 +373,10 @@ describe('Taro Store', () => {
 
         vi.mocked(api.get).mockResolvedValue(mockResponse);
 
-        const store = useTaroStore();
+        const store = useTarotStore();
         await store.fetchHistory();
 
-        expect(api.get).toHaveBeenCalledWith('/taro/history', expect.any(Object));
+        expect(api.get).toHaveBeenCalledWith('/tarot/history', expect.any(Object));
         expect(store.sessionHistory).toEqual(mockResponse.sessions);
         expect(store.historyLoading).toBe(false);
         expect(store.error).toBeNull();
@@ -391,10 +391,10 @@ describe('Taro Store', () => {
 
         vi.mocked(api.get).mockResolvedValue(mockResponse);
 
-        const store = useTaroStore();
+        const store = useTarotStore();
         await store.fetchHistory({ limit: 5, offset: 10 });
 
-        expect(api.get).toHaveBeenCalledWith('/taro/history', {
+        expect(api.get).toHaveBeenCalledWith('/tarot/history', {
           params: { limit: 5, offset: 10 },
         });
       });
@@ -403,7 +403,7 @@ describe('Taro Store', () => {
         const mockError = new Error('Failed to fetch history');
         vi.mocked(api.get).mockRejectedValue(mockError);
 
-        const store = useTaroStore();
+        const store = useTarotStore();
         await expect(store.fetchHistory()).rejects.toThrow();
 
         expect(store.error).toContain('Failed to fetch history');
@@ -411,7 +411,7 @@ describe('Taro Store', () => {
       });
 
       it('should set historyLoading during fetch', async () => {
-        const store = useTaroStore();
+        const store = useTarotStore();
         let loadingDuringCall = false;
 
         vi.mocked(api.get).mockImplementation(async () => {
@@ -440,10 +440,10 @@ describe('Taro Store', () => {
 
         vi.mocked(api.get).mockResolvedValue(mockResponse);
 
-        const store = useTaroStore();
+        const store = useTarotStore();
         await store.fetchDailyLimits();
 
-        expect(api.get).toHaveBeenCalledWith('/taro/limits');
+        expect(api.get).toHaveBeenCalledWith('/tarot/limits');
         expect(store.dailyLimits).toEqual(mockResponse.limits);
         expect(store.limitsLoading).toBe(false);
         expect(store.error).toBeNull();
@@ -453,7 +453,7 @@ describe('Taro Store', () => {
         const mockError = new Error('Failed to fetch limits');
         vi.mocked(api.get).mockRejectedValue(mockError);
 
-        const store = useTaroStore();
+        const store = useTarotStore();
         await expect(store.fetchDailyLimits()).rejects.toThrow();
 
         expect(store.error).toContain('Failed to fetch limits');
@@ -461,7 +461,7 @@ describe('Taro Store', () => {
       });
 
       it('should set limitsLoading during fetch', async () => {
-        const store = useTaroStore();
+        const store = useTarotStore();
         let loadingDuringCall = false;
 
         vi.mocked(api.get).mockImplementation(async () => {
@@ -476,7 +476,7 @@ describe('Taro Store', () => {
 
     describe('closeSession', () => {
       it('should close current session', async () => {
-        const store = useTaroStore();
+        const store = useTarotStore();
         store.currentSession = {
           session_id: 'test-session',
           status: 'ACTIVE',
@@ -493,14 +493,14 @@ describe('Taro Store', () => {
       });
 
       it('should handle close when no session active', () => {
-        const store = useTaroStore();
+        const store = useTarotStore();
         expect(() => store.closeSession()).not.toThrow();
       });
     });
 
     describe('reset', () => {
       it('should reset all state', () => {
-        const store = useTaroStore();
+        const store = useTarotStore();
         store.currentSession = {
           session_id: 'test',
           status: 'ACTIVE',
@@ -561,7 +561,7 @@ describe('Taro Store', () => {
         .mockResolvedValueOnce({ success: true, session: mockSession })
         .mockResolvedValueOnce(mockFollowUp);
 
-      const store = useTaroStore();
+      const store = useTarotStore();
 
       // Create session
       await store.createSession();

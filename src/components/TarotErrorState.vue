@@ -1,7 +1,7 @@
 <template>
   <div
     class="error-state"
-    data-testid="taro-error"
+    data-testid="tarot-error"
   >
     <div class="error-icon">
       <svg

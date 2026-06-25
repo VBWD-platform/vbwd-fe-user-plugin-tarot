@@ -16,10 +16,10 @@
       </svg>
       <div>
         <p class="warning-title">
-          {{ $t('taro.sessionExpiring') }}
+          {{ $t('tarot.sessionExpiring') }}
         </p>
         <p class="warning-message">
-          {{ $t('taro.sessionExpiresIn', { minutes: minutesRemaining }) }}
+          {{ $t('tarot.sessionExpiresIn', { minutes: minutesRemaining }) }}
         </p>
       </div>
     </div>

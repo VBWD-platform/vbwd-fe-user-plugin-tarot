@@ -1,8 +1,8 @@
 {
   "nav": {
-    "taro": "塔罗"
+    "tarot": "塔罗"
   },
-  "taro": {
+  "tarot": {
     "title": "塔罗牌阅读",
     "subtitle": "获取由人工智能驱动的塔罗解释和见解",
     "dailyLimits": "每日限制",

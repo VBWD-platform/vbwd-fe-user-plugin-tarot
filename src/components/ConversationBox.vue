@@ -9,7 +9,7 @@
       :class="['conversation-message', `${msg.role}-message`]"
     >
       <div class="message-role">
-        {{ msg.role === 'oracle' ? $t('taro.assistant') : $t('taro.you') }}
+        {{ msg.role === 'oracle' ? $t('tarot.assistant') : $t('tarot.you') }}
       </div>
       <div class="message-content">
         <FormattedMessage :content="msg.content" />

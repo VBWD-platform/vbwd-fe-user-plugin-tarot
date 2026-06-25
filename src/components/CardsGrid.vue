@@ -12,11 +12,11 @@
 </template>
 
 <script setup lang="ts">
-import type { TaroCard } from '@/stores';
+import type { TarotCard } from '@/stores';
 import CardDisplay from './CardDisplay.vue';
 
 interface Props {
-  cards?: TaroCard[];
+  cards?: TarotCard[];
   openedCardIds: Set<string>;
 }
 

@@ -10,20 +10,20 @@ import th from './locales/th.json';
 import zh from './locales/zh.json';
 
 /**
- * Taro Plugin - Tarot card reading with LLM interpretations
+ * Tarot Plugin - Tarot card reading with LLM interpretations
  */
-export const taroPlugin: IPlugin = {
-  name: 'taro',
+export const tarotPlugin: IPlugin = {
+  name: 'tarot',
   version: '1.0.0',
   description: 'Tarot card reading with AI-powered interpretations',
   _active: false,
 
   install(sdk: IPlatformSDK) {
-    // Add Taro route
+    // Add Tarot route
     sdk.addRoute({
-      path: '/dashboard/taro',
-      name: 'taro',
-      component: () => import('./src/Taro.vue'),
+      path: '/dashboard/tarot',
+      name: 'tarot',
+      component: () => import('./src/Tarot.vue'),
       meta: { requiresAuth: true },
     });
 
@@ -40,14 +40,14 @@ export const taroPlugin: IPlugin = {
 
   activate() {
     userNavRegistry.register({
-      pluginName: 'taro',
-      to: '/dashboard/taro',
-      labelKey: 'nav.taro',
-      testId: 'nav-taro',
+      pluginName: 'tarot',
+      to: '/dashboard/tarot',
+      labelKey: 'nav.tarot',
+      testId: 'nav-tarot',
     });
   },
 
   deactivate() {
-    userNavRegistry.unregister('taro');
+    userNavRegistry.unregister('tarot');
   },
 };

@@ -1,19 +1,19 @@
 <template>
   <div
-    class="taro-container"
-    data-testid="taro-dashboard"
+    class="tarot-container"
+    data-testid="tarot-dashboard"
   >
     <!-- Page Header -->
-    <div class="taro-header">
-      <h1>{{ $t('taro.title') }}</h1>
+    <div class="tarot-header">
+      <h1>{{ $t('tarot.title') }}</h1>
       <p class="subtitle">
-        {{ $t('taro.subtitle') }}
+        {{ $t('tarot.subtitle') }}
       </p>
     </div>
 
     <!-- Loading State -->
     <div
-      v-if="taroStore.loading && !taroStore.currentSession"
+      v-if="tarotStore.loading && !tarotStore.currentSession"
       class="loading-state"
     >
       <div class="spinner" />
@@ -21,64 +21,64 @@
     </div>
 
     <!-- Error State -->
-    <TaroErrorState
-      v-else-if="taroStore.error"
-      :error="taroStore.error"
+    <TarotErrorState
+      v-else-if="tarotStore.error"
+      :error="tarotStore.error"
       @retry="retryOperation"
     />
 
     <!-- Main Content -->
     <div
       v-else
-      class="taro-content"
+      class="tarot-content"
     >
       <!-- Daily Limits Card -->
       <DailyLimitsCard
-        :limits="taroStore.dailyLimits"
-        :loading="taroStore.limitsLoading"
+        :limits="tarotStore.dailyLimits"
+        :loading="tarotStore.limitsLoading"
         @refresh="refreshLimits"
       />
 
       <!-- Session Expiry Warning -->
-      <SessionExpiryWarning :minutes-remaining="taroStore.sessionTimeRemaining" />
+      <SessionExpiryWarning :minutes-remaining="tarotStore.sessionTimeRemaining" />
 
       <!-- Active Session -->
       <div
-        v-if="taroStore.hasActiveSession"
+        v-if="tarotStore.hasActiveSession"
         class="session-card card"
       >
         <div class="card-header">
-          <h2>{{ $t('taro.currentSession') }}</h2>
-          <span class="badge badge-active">{{ $t('taro.active') }}</span>
+          <h2>{{ $t('tarot.currentSession') }}</h2>
+          <span class="badge badge-active">{{ $t('tarot.active') }}</span>
         </div>
 
         <div class="session-content">
           <!-- Cards Grid -->
           <CardsGrid
-            :cards="taroStore.currentSession?.cards"
-            :opened-card-ids="taroStore.openedCards"
-            @card-click="taroStore.openCard"
+            :cards="tarotStore.currentSession?.cards"
+            :opened-card-ids="tarotStore.openedCards"
+            @card-click="tarotStore.openCard"
             @card-fullscreen="showCardFullscreen"
           />
 
           <!-- Session Metrics -->
           <SessionMetrics
-            :follow-ups-used="taroStore.currentSession?.follow_up_count || 0"
-            :max-follow-ups="taroStore.currentSession?.max_follow_ups || 3"
-            :tokens-used="taroStore.currentSession?.tokens_consumed || 0"
-            :time-remaining="taroStore.sessionTimeRemaining"
+            :follow-ups-used="tarotStore.currentSession?.follow_up_count || 0"
+            :max-follow-ups="tarotStore.currentSession?.max_follow_ups || 3"
+            :tokens-used="tarotStore.currentSession?.tokens_consumed || 0"
+            :time-remaining="tarotStore.sessionTimeRemaining"
           />
 
           <!-- Oracle Dialog -->
           <OracleDialog
-            v-if="taroStore.openedCards.size > 0"
-            :phase="taroStore.oraclePhase"
-            :messages="taroStore.conversationMessages"
+            v-if="tarotStore.openedCards.size > 0"
+            :phase="tarotStore.oraclePhase"
+            :messages="tarotStore.conversationMessages"
             :situation-text="situationText"
             :follow-up-question="followUpQuestion"
-            :loading="taroStore.loading"
+            :loading="tarotStore.loading"
             @explain-cards="askCardExplanation"
-            @discuss-situation="taroStore.setOraclePhase('asking_situation')"
+            @discuss-situation="tarotStore.setOraclePhase('asking_situation')"
             @update-situation="situationText = $event"
             @submit-situation="submitSituation"
             @update-question="followUpQuestion = $event"
@@ -91,7 +91,7 @@
             data-testid="close-session-btn"
             @click="closeCurrentSession"
           >
-            {{ $t('taro.closeSession') }}
+            {{ $t('tarot.closeSession') }}
           </button>
         </div>
       </div>
@@ -99,8 +99,8 @@
       <!-- Empty Session - Create New -->
       <EmptySessionCard
         v-else
-        :loading="taroStore.loading"
-        :can-create="taroStore.canCreateSession"
+        :loading="tarotStore.loading"
+        :can-create="tarotStore.canCreateSession"
         @create-session="createNewSession"
       />
     </div>
@@ -117,7 +117,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { useTaroStore } from '@/stores';
+import { useTarotStore } from '@/stores';
 import DailyLimitsCard from './components/DailyLimitsCard.vue';
 import SessionExpiryWarning from './components/SessionExpiryWarning.vue';
 import CardsGrid from './components/CardsGrid.vue';
@@ -125,49 +125,49 @@ import SessionMetrics from './components/SessionMetrics.vue';
 import OracleDialog from './components/OracleDialog.vue';
 import EmptySessionCard from './components/EmptySessionCard.vue';
 import CardDetailModal from './components/CardDetailModal.vue';
-import TaroErrorState from './components/TaroErrorState.vue';
+import TarotErrorState from './components/TarotErrorState.vue';
 
-const taroStore = useTaroStore();
+const tarotStore = useTarotStore();
 const selectedCardId = ref<string | null>(null);
 const selectedCardFullscreen = ref(false);
 const situationText = ref('');
 const followUpQuestion = ref('');
 
 onMounted(async () => {
-  if (!taroStore.dailyLimits) {
-    await taroStore.initialize();
+  if (!tarotStore.dailyLimits) {
+    await tarotStore.initialize();
   }
 });
 
 const createNewSession = async () => {
   try {
-    await taroStore.createSession();
-    await taroStore.fetchDailyLimits();
+    await tarotStore.createSession();
+    await tarotStore.fetchDailyLimits();
   } catch (error) {
     console.error('Failed to create session:', error);
   }
 };
 
 const closeCurrentSession = () => {
-  taroStore.closeSession();
+  tarotStore.closeSession();
 };
 
 const refreshLimits = async () => {
   try {
-    await taroStore.fetchDailyLimits();
+    await tarotStore.fetchDailyLimits();
   } catch (error) {
     console.error('Failed to refresh limits:', error);
   }
 };
 
 const retryOperation = async () => {
-  taroStore.error = null;
-  await taroStore.initialize();
+  tarotStore.error = null;
+  await tarotStore.initialize();
 };
 
 const submitSituation = async () => {
   try {
-    await taroStore.submitSituation(situationText.value);
+    await tarotStore.submitSituation(situationText.value);
     situationText.value = '';
   } catch (error) {
     console.error('Failed to submit situation:', error);
@@ -180,7 +180,7 @@ const submitFollowUpQuestion = async () => {
   }
 
   try {
-    await taroStore.askFollowUpQuestion(followUpQuestion.value);
+    await tarotStore.askFollowUpQuestion(followUpQuestion.value);
     followUpQuestion.value = '';
   } catch (error) {
     console.error('Failed to submit follow-up question:', error);
@@ -189,7 +189,7 @@ const submitFollowUpQuestion = async () => {
 
 const askCardExplanation = async () => {
   try {
-    await taroStore.askCardExplanation();
+    await tarotStore.askCardExplanation();
   } catch (error) {
     console.error('Failed to get card explanation:', error);
   }
@@ -207,7 +207,7 @@ const closeCardModal = () => {
 </script>
 
 <style scoped>
-.taro-container {
+.tarot-container {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-lg);
@@ -216,12 +216,12 @@ const closeCardModal = () => {
   margin: 0 auto;
 }
 
-.taro-header {
+.tarot-header {
   text-align: center;
   margin-bottom: var(--spacing-lg);
 }
 
-.taro-header h1 {
+.tarot-header h1 {
   margin: 0 0 var(--spacing-sm) 0;
   font-size: 2.5rem;
   font-weight: 700;
@@ -260,7 +260,7 @@ const closeCardModal = () => {
   }
 }
 
-.taro-content {
+.tarot-content {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-lg);
@@ -337,11 +337,11 @@ const closeCardModal = () => {
 }
 
 @media (max-width: 768px) {
-  .taro-container {
+  .tarot-container {
     padding: var(--spacing-md);
   }
 
-  .taro-header h1 {
+  .tarot-header h1 {
     font-size: 1.8rem;
   }
 

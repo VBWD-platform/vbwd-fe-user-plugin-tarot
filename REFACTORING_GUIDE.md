@@ -1,7 +1,7 @@
-# Taro Plugin Refactoring Guide
+# Tarot Plugin Refactoring Guide
 
 ## Overview
-The Taro plugin has been refactored to follow SOLID principles. The main `Taro.vue` component (1176 lines) has been split into 8 focused, single-responsibility components.
+The Tarot plugin has been refactored to follow SOLID principles. The main `Tarot.vue` component (1176 lines) has been split into 8 focused, single-responsibility components.
 
 ---
 
@@ -15,7 +15,7 @@ The Taro plugin has been refactored to follow SOLID principles. The main `Taro.v
 | **SessionExpiryWarning.vue** | Warn when session < 3 min | `minutesRemaining` | — |
 | **SessionMetrics.vue** | Show follow-ups, tokens, time | metrics (4 props) | — |
 | **ConversationBox.vue** | Display message history | `messages: Message[]` | — |
-| **TaroErrorState.vue** | Display error messages | `error: string` | `@retry` |
+| **TarotErrorState.vue** | Display error messages | `error: string` | `@retry` |
 | **EmptySessionCard.vue** | Show empty state + CTA | `loading`, `canCreate` | `@create-session` |
 
 ### Orchestrator Components
@@ -29,7 +29,7 @@ The Taro plugin has been refactored to follow SOLID principles. The main `Taro.v
 
 | Component | Purpose | Lines | Responsibilities |
 |-----------|---------|-------|------------------|
-| **Taro.vue** | Orchestrate all components | ~200 | Session management, event delegation |
+| **Tarot.vue** | Orchestrate all components | ~200 | Session management, event delegation |
 
 ---
 
@@ -37,8 +37,8 @@ The Taro plugin has been refactored to follow SOLID principles. The main `Taro.v
 
 ```
 src/
-├── Taro.vue (REFACTORED - 200 lines)
-├── Taro.refactored.vue (NEW - refactored version)
+├── Tarot.vue (REFACTORED - 200 lines)
+├── Tarot.refactored.vue (NEW - refactored version)
 ├── components/
 │   ├── CardDisplay.vue (existing)
 │   ├── CardDetailModal.vue (existing)
@@ -51,9 +51,9 @@ src/
 │   ├── ConversationBox.vue (NEW)
 │   ├── OracleDialog.vue (NEW)
 │   ├── EmptySessionCard.vue (NEW)
-│   └── TaroErrorState.vue (NEW)
+│   └── TarotErrorState.vue (NEW)
 ├── stores/
-│   └── taro.ts (existing)
+│   └── tarot.ts (existing)
 └── utils/
     └── markdownFormatter.ts (existing)
 ```
@@ -63,14 +63,14 @@ src/
 ## Migration Checklist
 
 ### Before Starting
-- [ ] Backup current `Taro.vue`
+- [ ] Backup current `Tarot.vue`
 - [ ] Ensure all tests pass
-- [ ] Create feature branch `refactor/taro-solid`
+- [ ] Create feature branch `refactor/tarot-solid`
 
 ### Implementation
 - [ ] Copy all new components from `components/` directory
-- [ ] Replace `Taro.vue` with refactored version from `Taro.refactored.vue`
-- [ ] Update any local imports of Taro.vue
+- [ ] Replace `Tarot.vue` with refactored version from `Tarot.refactored.vue`
+- [ ] Update any local imports of Tarot.vue
 - [ ] Verify all components are imported correctly
 
 ### Testing
@@ -97,7 +97,7 @@ src/
 ## Component Dependencies
 
 ```
-Taro.vue (Orchestrator)
+Tarot.vue (Orchestrator)
 ├── DailyLimitsCard
 ├── SessionExpiryWarning
 ├── CardsGrid
@@ -108,7 +108,7 @@ Taro.vue (Orchestrator)
 │   │   └── FormattedMessage (existing)
 │   └── Form inputs
 ├── EmptySessionCard
-├── TaroErrorState
+├── TarotErrorState
 └── CardDetailModal (existing)
 ```
 
@@ -136,7 +136,7 @@ Taro.vue (Orchestrator)
 <CardsGrid
   :cards="session.cards"
   :opened-card-ids="openedCards"
-  @card-click="taroStore.openCard"
+  @card-click="tarotStore.openCard"
   @card-fullscreen="showCardFullscreen"
 />
 ```
@@ -187,9 +187,9 @@ Taro.vue (Orchestrator)
 />
 ```
 
-### TaroErrorState
+### TarotErrorState
 ```vue
-<TaroErrorState
+<TarotErrorState
   :error="errorMessage"
   @retry="retryOperation"
 />
@@ -203,7 +203,7 @@ Taro.vue (Orchestrator)
 
 ```vue
 <!-- Use prop drilling for clear data flow -->
-<DailyLimitsCard :limits="taroStore.dailyLimits" />
+<DailyLimitsCard :limits="tarotStore.dailyLimits" />
 
 <!-- Keep components focused -->
 <!-- SessionMetrics only displays metrics -->
@@ -219,14 +219,14 @@ Taro.vue (Orchestrator)
 
 ```vue
 <!-- Don't pass entire store -->
-<DailyLimitsCard :store="taroStore" />
+<DailyLimitsCard :store="tarotStore" />
 
 <!-- Don't put business logic in display components -->
 <!-- SessionMetrics should not call API -->
 
 <!-- Don't pass callbacks as event listeners -->
-<CardsGrid @card-click="(id) => taroStore.openCard(id)" />
-<!-- Instead: @card-click="taroStore.openCard" in parent -->
+<CardsGrid @card-click="(id) => tarotStore.openCard(id)" />
+<!-- Instead: @card-click="tarotStore.openCard" in parent -->
 
 <!-- Don't pass unneeded data -->
 <SessionMetrics :session="entireSessionObject" />
@@ -238,7 +238,7 @@ Taro.vue (Orchestrator)
 ## Troubleshooting
 
 ### Component not rendering
-- Check if component is imported in Taro.vue
+- Check if component is imported in Tarot.vue
 - Verify component file exists in correct location
 - Check for typos in component name
 
@@ -329,14 +329,14 @@ describe('DailyLimitsCard', () => {
 For issues or questions about the refactoring:
 1. Check this guide first
 2. Review the component source code (comments explain logic)
-3. Check the comprehensive refactoring report: `14-taro-refactoring-solid.md`
+3. Check the comprehensive refactoring report: `14-tarot-refactoring-solid.md`
 4. Look at test examples in `__tests__/` directory
 
 ---
 
 ## Related Documentation
 
-- **Refactoring Report**: `docs/devlog/20260217/report/14-taro-refactoring-solid.md`
+- **Refactoring Report**: `docs/devlog/20260217/report/14-tarot-refactoring-solid.md`
 - **Plugin Architecture**: `CLAUDE.md` - Plugin system overview
 - **Development Guide**: `docs/README.md`
 - **Component API**: Check component files for prop/event details
@@ -345,7 +345,7 @@ For issues or questions about the refactoring:
 
 ## Summary
 
-The Taro plugin has been successfully refactored to follow SOLID principles:
+The Tarot plugin has been successfully refactored to follow SOLID principles:
 
 ✅ **Single Responsibility** - Each component has one purpose
 ✅ **Open/Closed** - Extensible via props without modification

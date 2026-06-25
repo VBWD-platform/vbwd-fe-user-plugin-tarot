@@ -1,19 +1,19 @@
 <template>
   <div
-    class="taro-container"
-    data-testid="taro-dashboard"
+    class="tarot-container"
+    data-testid="tarot-dashboard"
   >
     <!-- Page Header -->
-    <div class="taro-header">
-      <h1>{{ $t('taro.title') }}</h1>
+    <div class="tarot-header">
+      <h1>{{ $t('tarot.title') }}</h1>
       <p class="subtitle">
-        {{ $t('taro.subtitle') }}
+        {{ $t('tarot.subtitle') }}
       </p>
     </div>
 
     <!-- Loading State -->
     <div
-      v-if="taroStore.loading && !taroStore.currentSession"
+      v-if="tarotStore.loading && !tarotStore.currentSession"
       class="loading-state"
     >
       <div class="spinner" />
@@ -22,12 +22,12 @@
 
     <!-- Error State -->
     <div
-      v-else-if="taroStore.error"
+      v-else-if="tarotStore.error"
       class="error-state"
-      data-testid="taro-error"
+      data-testid="tarot-error"
     >
       <div class="error-message">
-        <p>{{ $t('common.error') }}: {{ taroStore.error }}</p>
+        <p>{{ $t('common.error') }}: {{ tarotStore.error }}</p>
         <button
           class="btn btn-primary"
           @click="retryOperation"
@@ -40,7 +40,7 @@
     <!-- Main Content -->
     <div
       v-else
-      class="taro-content"
+      class="tarot-content"
     >
       <!-- Daily Limits Card -->
       <div
@@ -48,9 +48,9 @@
         data-testid="daily-limits-card"
       >
         <div class="card-header">
-          <h2>{{ $t('taro.dailyLimits') }}</h2>
+          <h2>{{ $t('tarot.dailyLimits') }}</h2>
           <button
-            :disabled="taroStore.limitsLoading"
+            :disabled="tarotStore.limitsLoading"
             class="btn-icon"
             :title="$t('common.refresh')"
             data-testid="refresh-limits-btn"
@@ -70,28 +70,28 @@
 
         <div class="limits-content">
           <div class="limit-item">
-            <span class="label">{{ $t('taro.dailyTotal') }}</span>
-            <span class="value">{{ taroStore.dailyLimits?.daily_total || 0 }}</span>
+            <span class="label">{{ $t('tarot.dailyTotal') }}</span>
+            <span class="value">{{ tarotStore.dailyLimits?.daily_total || 0 }}</span>
           </div>
           <div class="limit-item">
-            <span class="label">{{ $t('taro.dailyRemaining') }}</span>
+            <span class="label">{{ $t('tarot.dailyRemaining') }}</span>
             <span
               class="value highlight"
-              :class="{ 'text-warning': taroStore.sessionsRemaining === 0 }"
+              :class="{ 'text-warning': tarotStore.sessionsRemaining === 0 }"
             >
-              {{ taroStore.sessionsRemaining }}
+              {{ tarotStore.sessionsRemaining }}
             </span>
           </div>
           <div class="limit-item">
-            <span class="label">{{ $t('taro.planName') }}</span>
-            <span class="value">{{ taroStore.dailyLimits?.plan_name || 'Unknown' }}</span>
+            <span class="label">{{ $t('tarot.planName') }}</span>
+            <span class="value">{{ tarotStore.dailyLimits?.plan_name || 'Unknown' }}</span>
           </div>
         </div>
       </div>
 
       <!-- Session Expiry Warning -->
       <div
-        v-if="taroStore.hasExpiryWarning"
+        v-if="tarotStore.hasExpiryWarning"
         class="warning-card card"
         data-testid="expiry-warning"
       >
@@ -107,10 +107,10 @@
           </svg>
           <div>
             <p class="warning-title">
-              {{ $t('taro.sessionExpiring') }}
+              {{ $t('tarot.sessionExpiring') }}
             </p>
             <p class="warning-message">
-              {{ $t('taro.sessionExpiresIn', { minutes: taroStore.sessionTimeRemaining }) }}
+              {{ $t('tarot.sessionExpiresIn', { minutes: tarotStore.sessionTimeRemaining }) }}
             </p>
           </div>
         </div>
@@ -118,24 +118,24 @@
 
       <!-- Active Session Card -->
       <div
-        v-if="taroStore.hasActiveSession"
+        v-if="tarotStore.hasActiveSession"
         class="session-card card"
         data-testid="active-session-card"
       >
         <div class="card-header">
-          <h2>{{ $t('taro.currentSession') }}</h2>
-          <span class="badge badge-active">{{ $t('taro.active') }}</span>
+          <h2>{{ $t('tarot.currentSession') }}</h2>
+          <span class="badge badge-active">{{ $t('tarot.active') }}</span>
         </div>
 
         <div class="session-content">
           <!-- Cards Grid -->
           <div class="cards-grid">
             <CardDisplay
-              v-for="card in taroStore.currentSession?.cards"
+              v-for="card in tarotStore.currentSession?.cards"
               :key="card.card_id"
               :card="card"
-              :is-opened="taroStore.openedCards.has(card.card_id)"
-              @card-click="taroStore.openCard"
+              :is-opened="tarotStore.openedCards.has(card.card_id)"
+              @card-click="tarotStore.openCard"
               @card-fullscreen="showCardFullscreen"
             />
           </div>
@@ -143,42 +143,42 @@
           <!-- Session Info -->
           <div class="session-info">
             <div class="info-row">
-              <span class="label">{{ $t('taro.followUps') }}</span>
+              <span class="label">{{ $t('tarot.followUps') }}</span>
               <span class="value">
-                {{ taroStore.currentSession?.follow_up_count || 0 }}/{{
-                  taroStore.currentSession?.max_follow_ups || 3
+                {{ tarotStore.currentSession?.follow_up_count || 0 }}/{{
+                  tarotStore.currentSession?.max_follow_ups || 3
                 }}
               </span>
             </div>
             <div class="info-row">
-              <span class="label">{{ $t('taro.tokensUsed') }}</span>
-              <span class="value">{{ taroStore.currentSession?.tokens_consumed || 0 }}</span>
+              <span class="label">{{ $t('tarot.tokensUsed') }}</span>
+              <span class="value">{{ tarotStore.currentSession?.tokens_consumed || 0 }}</span>
             </div>
             <div class="info-row">
-              <span class="label">{{ $t('taro.timeRemaining') }}</span>
+              <span class="label">{{ $t('tarot.timeRemaining') }}</span>
               <span
                 class="value"
-                :class="{ 'text-warning': taroStore.sessionTimeRemaining <= 3 }"
+                :class="{ 'text-warning': tarotStore.sessionTimeRemaining <= 3 }"
               >
-                {{ taroStore.sessionTimeRemaining }} min
+                {{ tarotStore.sessionTimeRemaining }} min
               </span>
             </div>
           </div>
 
           <!-- Oracle Dialog Section (appears after cards opened) -->
           <div
-            v-if="taroStore.openedCards.size > 0"
+            v-if="tarotStore.openedCards.size > 0"
             class="oracle-section"
           >
             <!-- Conversation Messages -->
             <div class="conversation-box">
               <div
-                v-for="(msg, idx) in taroStore.conversationMessages"
+                v-for="(msg, idx) in tarotStore.conversationMessages"
                 :key="idx"
                 :class="['conversation-message', `${msg.role}-message`]"
               >
                 <div class="message-role">
-                  {{ msg.role === 'oracle' ? $t('taro.assistant') : $t('taro.you') }}
+                  {{ msg.role === 'oracle' ? $t('tarot.assistant') : $t('tarot.you') }}
                 </div>
                 <div class="message-content">
                   <FormattedMessage :content="msg.content" />
@@ -188,7 +188,7 @@
 
             <!-- Oracle Phase: asking_mode -->
             <div
-              v-if="taroStore.oraclePhase === 'asking_mode'"
+              v-if="tarotStore.oraclePhase === 'asking_mode'"
               class="oracle-dialog"
             >
               <div class="dialog-buttons">
@@ -200,7 +200,7 @@
                 </button>
                 <button
                   class="btn btn-secondary"
-                  @click="taroStore.setOraclePhase('asking_situation')"
+                  @click="tarotStore.setOraclePhase('asking_situation')"
                 >
                   {{ $t('oracle.discussButton') }}
                 </button>
@@ -209,7 +209,7 @@
 
             <!-- Oracle Phase: asking_situation -->
             <div
-              v-if="taroStore.oraclePhase === 'asking_situation'"
+              v-if="tarotStore.oraclePhase === 'asking_situation'"
               class="oracle-dialog"
             >
               <div class="form-group">
@@ -228,18 +228,18 @@
               </div>
 
               <button
-                :disabled="taroStore.loading || situationWordCount === 0 || situationWordCount > 100"
+                :disabled="tarotStore.loading || situationWordCount === 0 || situationWordCount > 100"
                 class="btn btn-primary"
                 data-testid="submit-situation-btn"
                 @click="submitSituation"
               >
-                {{ taroStore.loading ? $t('common.submitting') : $t('common.submit') }}
+                {{ tarotStore.loading ? $t('common.submitting') : $t('common.submit') }}
               </button>
             </div>
 
             <!-- Oracle Phase: reading -->
             <div
-              v-if="taroStore.oraclePhase === 'reading'"
+              v-if="tarotStore.oraclePhase === 'reading'"
               class="oracle-dialog loading"
             >
               <div class="spinner-small" />
@@ -248,7 +248,7 @@
 
             <!-- Oracle Phase: done - Chat continues below -->
             <div
-              v-if="taroStore.oraclePhase === 'done'"
+              v-if="tarotStore.oraclePhase === 'done'"
               class="oracle-dialog"
             >
               <!-- Messages are displayed above in conversation-box -->
@@ -256,7 +256,7 @@
 
             <!-- Chat Input - Ask More Questions -->
             <div
-              v-if="taroStore.oraclePhase === 'done'"
+              v-if="tarotStore.oraclePhase === 'done'"
               class="chat-continue-section"
             >
               <div class="form-group">
@@ -274,12 +274,12 @@
               </div>
 
               <button
-                :disabled="taroStore.loading || !followUpQuestion.trim()"
+                :disabled="tarotStore.loading || !followUpQuestion.trim()"
                 class="btn btn-primary"
                 data-testid="submit-chat-btn"
                 @click="submitFollowUpQuestion"
               >
-                {{ taroStore.loading ? $t('common.submitting') : $t('common.send') }}
+                {{ tarotStore.loading ? $t('common.submitting') : $t('common.send') }}
               </button>
             </div>
           </div>
@@ -290,7 +290,7 @@
             data-testid="close-session-btn"
             @click="closeCurrentSession"
           >
-            {{ $t('taro.closeSession') }}
+            {{ $t('tarot.closeSession') }}
           </button>
         </div>
       </div>
@@ -302,12 +302,12 @@
         data-testid="create-session-card"
       >
         <div class="card-header">
-          <h2>{{ $t('taro.startNewSession') }}</h2>
+          <h2>{{ $t('tarot.startNewSession') }}</h2>
         </div>
 
         <div class="create-content">
           <p class="description">
-            {{ $t('taro.createSessionDescription') }}
+            {{ $t('tarot.createSessionDescription') }}
           </p>
 
           <div class="session-benefits">
@@ -321,8 +321,8 @@
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8m3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z" />
               </svg>
               <div>
-                <h4>{{ $t('taro.benefit1Title') }}</h4>
-                <p>{{ $t('taro.benefit1Desc') }}</p>
+                <h4>{{ $t('tarot.benefit1Title') }}</h4>
+                <p>{{ $t('tarot.benefit1Desc') }}</p>
               </div>
             </div>
             <div class="benefit-item">
@@ -335,8 +335,8 @@
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8m.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
               </svg>
               <div>
-                <h4>{{ $t('taro.benefit2Title') }}</h4>
-                <p>{{ $t('taro.benefit2Desc') }}</p>
+                <h4>{{ $t('tarot.benefit2Title') }}</h4>
+                <p>{{ $t('tarot.benefit2Desc') }}</p>
               </div>
             </div>
             <div class="benefit-item">
@@ -349,27 +349,27 @@
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8m4.41-11.59L11 13.41 7.59 9.99 6.18 11.4 11 16.22l7.41-7.41-1.41-1.41z" />
               </svg>
               <div>
-                <h4>{{ $t('taro.benefit3Title') }}</h4>
-                <p>{{ $t('taro.benefit3Desc') }}</p>
+                <h4>{{ $t('tarot.benefit3Title') }}</h4>
+                <p>{{ $t('tarot.benefit3Desc') }}</p>
               </div>
             </div>
           </div>
 
           <button
-            :disabled="taroStore.loading || !taroStore.canCreateSession"
+            :disabled="tarotStore.loading || !tarotStore.canCreateSession"
             class="btn btn-primary btn-large"
             data-testid="create-session-btn"
             @click="createNewSession"
           >
-            <span v-if="taroStore.loading">{{ $t('taro.creatingSession') }}</span>
-            <span v-else>{{ $t('taro.createSession') }}</span>
+            <span v-if="tarotStore.loading">{{ $t('tarot.creatingSession') }}</span>
+            <span v-else>{{ $t('tarot.createSession') }}</span>
           </button>
 
           <p
-            v-if="!taroStore.canCreateSession"
+            v-if="!tarotStore.canCreateSession"
             class="limit-warning"
           >
-            {{ $t('taro.dailyLimitReached') }}
+            {{ $t('tarot.dailyLimitReached') }}
           </p>
         </div>
       </div>
@@ -387,12 +387,12 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
-import { useTaroStore } from '@/stores';
+import { useTarotStore } from '@/stores';
 import CardDisplay from './components/CardDisplay.vue';
 import CardDetailModal from './components/CardDetailModal.vue';
 import FormattedMessage from './components/FormattedMessage.vue';
 
-const taroStore = useTaroStore();
+const tarotStore = useTarotStore();
 const selectedCardId = ref<string | null>(null);
 const selectedCardFullscreen = ref(false);
 const situationText = ref('');
@@ -404,23 +404,23 @@ const situationWordCount = computed(() => {
 
 onMounted(async () => {
   // Initialize store if needed
-  if (!taroStore.dailyLimits) {
-    await taroStore.initialize();
+  if (!tarotStore.dailyLimits) {
+    await tarotStore.initialize();
   }
 });
 
 const createNewSession = async () => {
   try {
-    await taroStore.createSession();
+    await tarotStore.createSession();
     // Refresh limits after creation
-    await taroStore.fetchDailyLimits();
+    await tarotStore.fetchDailyLimits();
   } catch (error) {
     console.error('Failed to create session:', error);
   }
 };
 
 const closeCurrentSession = () => {
-  taroStore.closeSession();
+  tarotStore.closeSession();
 };
 
 const showCardFullscreen = (cardId: string) => {
@@ -436,20 +436,20 @@ const closeCardModal = () => {
 
 const refreshLimits = async () => {
   try {
-    await taroStore.fetchDailyLimits();
+    await tarotStore.fetchDailyLimits();
   } catch (error) {
     console.error('Failed to refresh limits:', error);
   }
 };
 
 const retryOperation = async () => {
-  taroStore.error = null;
-  await taroStore.initialize();
+  tarotStore.error = null;
+  await tarotStore.initialize();
 };
 
 const submitSituation = async () => {
   try {
-    await taroStore.submitSituation(situationText.value);
+    await tarotStore.submitSituation(situationText.value);
     // Reset form
     situationText.value = '';
   } catch (error) {
@@ -463,7 +463,7 @@ const submitFollowUpQuestion = async () => {
   }
 
   try {
-    await taroStore.askFollowUpQuestion(followUpQuestion.value);
+    await tarotStore.askFollowUpQuestion(followUpQuestion.value);
     // Reset form
     followUpQuestion.value = '';
   } catch (error) {
@@ -473,29 +473,29 @@ const submitFollowUpQuestion = async () => {
 
 const askCardExplanation = async () => {
   try {
-    taroStore.setOraclePhase('reading');
-    await taroStore.askCardExplanation();
-    taroStore.setOraclePhase('done');
+    tarotStore.setOraclePhase('reading');
+    await tarotStore.askCardExplanation();
+    tarotStore.setOraclePhase('done');
   } catch (error) {
     console.error('Failed to get card explanation:', error);
-    taroStore.setOraclePhase('asking_mode');
+    tarotStore.setOraclePhase('asking_mode');
   }
 };
 </script>
 
 <style scoped>
-.taro-container {
+.tarot-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: var(--spacing-lg);
 }
 
-.taro-header {
+.tarot-header {
   margin-bottom: var(--spacing-xl);
   text-align: center;
 }
 
-.taro-header h1 {
+.tarot-header h1 {
   font-size: 2.5rem;
   font-weight: 700;
   color: var(--color-primary);
@@ -507,7 +507,7 @@ const askCardExplanation = async () => {
   color: var(--color-text-secondary);
 }
 
-.taro-content {
+.tarot-content {
   display: grid;
   gap: var(--spacing-lg);
 }
@@ -1139,7 +1139,7 @@ const askCardExplanation = async () => {
 
 /* Responsive */
 @media (max-width: 768px) {
-  .taro-header h1 {
+  .tarot-header h1 {
     font-size: 1.8rem;
   }
 

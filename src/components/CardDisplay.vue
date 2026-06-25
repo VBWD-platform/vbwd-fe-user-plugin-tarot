@@ -81,13 +81,13 @@
       <!-- Card Info -->
       <div class="card-info">
         <div class="card-position">
-          {{ $t(`taro.position.${card.position.toLowerCase()}`) }}
+          {{ $t(`tarot.position.${card.position.toLowerCase()}`) }}
         </div>
         <div
           class="card-orientation"
           :class="{ reversed: card.orientation === 'REVERSED' }"
         >
-          {{ $t(`taro.orientation.${card.orientation.toLowerCase()}`) }}
+          {{ $t(`tarot.orientation.${card.orientation.toLowerCase()}`) }}
         </div>
 
         <!-- Interpretation (if available) -->
@@ -103,7 +103,7 @@
           v-else
           class="interpretation-loading"
         >
-          <span class="text-secondary">{{ $t('taro.loadingInterpretation') }}</span>
+          <span class="text-secondary">{{ $t('tarot.loadingInterpretation') }}</span>
         </div>
       </div>
     </template>
@@ -111,11 +111,11 @@
 </template>
 
 <script setup lang="ts">
-import type { TaroCard } from '@/stores';
+import type { TarotCard } from '@/stores';
 import { computed } from 'vue';
 
 interface Props {
-  card: TaroCard;
+  card: TarotCard;
   isOpened?: boolean;
 }
 
@@ -140,8 +140,8 @@ function handleCardClick() {
 }
 
 const cardTitle = computed(() => {
-  const position = `taro.position.${props.card.position.toLowerCase()}`;
-  const orientation = `taro.orientation.${props.card.orientation.toLowerCase()}`;
+  const position = `tarot.position.${props.card.position.toLowerCase()}`;
+  const orientation = `tarot.orientation.${props.card.orientation.toLowerCase()}`;
   return `${position} - ${orientation}`;
 });
 

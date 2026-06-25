@@ -1,5 +1,5 @@
 /**
- * Taro Store (Pinia) - Manage Tarot reading sessions and history
+ * Tarot Store (Pinia) - Manage Tarot reading sessions and history
  */
 import { defineStore } from 'pinia';
 import { api } from '@/api';
@@ -23,7 +23,7 @@ export interface Arcana {
 /**
  * Represents a single card in a spread
  */
-export interface TaroCard {
+export interface TarotCard {
   card_id: string;
   position: 'PAST' | 'PRESENT' | 'FUTURE' | 'ADDITIONAL';
   orientation: 'UPRIGHT' | 'REVERSED';
@@ -43,13 +43,13 @@ export interface ConversationMessage {
 }
 
 /**
- * Represents a complete Taro reading session
+ * Represents a complete Tarot reading session
  */
-export interface TaroSession {
+export interface TarotSession {
   session_id: string;
   user_id?: string;
   status: 'ACTIVE' | 'EXPIRED' | 'CLOSED';
-  cards: TaroCard[];
+  cards: TarotCard[];
   created_at: string;
   expires_at?: string;
   ended_at?: string;
@@ -89,14 +89,14 @@ export interface FetchHistoryParams {
 }
 
 /**
- * Taro Store State
+ * Tarot Store State
  */
-interface TaroStoreState {
+interface TarotStoreState {
   // Current active session
-  currentSession: TaroSession | null;
+  currentSession: TarotSession | null;
 
   // Session history
-  sessionHistory: TaroSession[];
+  sessionHistory: TarotSession[];
   historyPagination: PaginationInfo | null;
 
   // Daily limits
@@ -117,8 +117,8 @@ interface TaroStoreState {
   error: string | null;
 }
 
-export const useTaroStore = defineStore('taro', {
-  state: (): TaroStoreState => ({
+export const useTarotStore = defineStore('tarot', {
+  state: (): TarotStoreState => ({
     currentSession: null,
     sessionHistory: [],
     historyPagination: null,
@@ -238,14 +238,14 @@ export const useTaroStore = defineStore('taro', {
 
   actions: {
     /**
-     * Create a new Taro session
+     * Create a new Tarot session
      */
-    async createSession(): Promise<TaroSession> {
+    async createSession(): Promise<TarotSession> {
       this.loading = true;
       this.error = null;
 
       try {
-        const response = await api.post('/taro/session', {}) as any;
+        const response = await api.post('/tarot/session', {}) as any;
 
         if (!response.success) {
           throw new Error(response.message || 'Failed to create session');
@@ -282,7 +282,7 @@ export const useTaroStore = defineStore('taro', {
 
       try {
         const response = await api.post(
-          `/taro/session/${this.currentSession.session_id}/follow-up`,
+          `/tarot/session/${this.currentSession.session_id}/follow-up`,
           {
             question,
             follow_up_type: followUpType,
@@ -308,7 +308,7 @@ export const useTaroStore = defineStore('taro', {
     /**
      * Fetch session history with optional pagination
      */
-    async fetchHistory(params?: FetchHistoryParams): Promise<TaroSession[]> {
+    async fetchHistory(params?: FetchHistoryParams): Promise<TarotSession[]> {
       this.historyLoading = true;
       this.error = null;
 
@@ -319,7 +319,7 @@ export const useTaroStore = defineStore('taro', {
           ...(params?.status && { status: params.status }),
         };
 
-        const response = await api.get('/taro/history', { params: queryParams }) as any;
+        const response = await api.get('/tarot/history', { params: queryParams }) as any;
 
         if (!response.success) {
           throw new Error(response.message || 'Failed to fetch history');
@@ -363,7 +363,7 @@ export const useTaroStore = defineStore('taro', {
       this.error = null;
 
       try {
-        const response = await api.get('/taro/limits') as any;
+        const response = await api.get('/tarot/limits') as any;
 
         if (!response.success) {
           throw new Error(response.message || 'Failed to fetch limits');
@@ -452,7 +452,7 @@ export const useTaroStore = defineStore('taro', {
         this.checkSessionExpiration();
       } catch (error) {
         // Initialization error is not critical
-        console.warn('Failed to initialize Taro store:', error);
+        console.warn('Failed to initialize Tarot store:', error);
       }
     },
 
@@ -547,7 +547,7 @@ export const useTaroStore = defineStore('taro', {
       try {
         // Call backend endpoint with current language
         const response = await api.post(
-          `/taro/session/${this.currentSession.session_id}/situation`,
+          `/tarot/session/${this.currentSession.session_id}/situation`,
           {
             situation_text: trimmed,
             language: getLocale()
@@ -596,7 +596,7 @@ export const useTaroStore = defineStore('taro', {
       try {
         // Call backend endpoint for follow-up question with current language
         const response = await api.post(
-          `/taro/session/${this.currentSession.session_id}/follow-up-question`,
+          `/tarot/session/${this.currentSession.session_id}/follow-up-question`,
           {
             question: trimmed,
             language: getLocale()
@@ -632,7 +632,7 @@ export const useTaroStore = defineStore('taro', {
       try {
         // Call backend endpoint for card explanation with current language
         const response = await api.post(
-          `/taro/session/${this.currentSession.session_id}/card-explanation`,
+          `/tarot/session/${this.currentSession.session_id}/card-explanation`,
           { language: getLocale() }
         ) as any;
 

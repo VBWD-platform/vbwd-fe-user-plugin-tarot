@@ -1,17 +1,17 @@
 <template>
   <div class="session-info">
     <div class="info-row">
-      <span class="label">{{ $t('taro.followUps') }}</span>
+      <span class="label">{{ $t('tarot.followUps') }}</span>
       <span class="value">
         {{ followUpsUsed }}/{{ maxFollowUps }}
       </span>
     </div>
     <div class="info-row">
-      <span class="label">{{ $t('taro.tokensUsed') }}</span>
+      <span class="label">{{ $t('tarot.tokensUsed') }}</span>
       <span class="value">{{ tokensUsed }}</span>
     </div>
     <div class="info-row">
-      <span class="label">{{ $t('taro.timeRemaining') }}</span>
+      <span class="label">{{ $t('tarot.timeRemaining') }}</span>
       <span
         class="value"
         :class="{ 'text-warning': timeRemaining <= 3 }"

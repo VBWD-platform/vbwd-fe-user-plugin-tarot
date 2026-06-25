@@ -160,25 +160,25 @@
 
           <div class="info-grid">
             <div class="info-item">
-              <span class="info-label">{{ $t('taro.position.label') }}</span>
+              <span class="info-label">{{ $t('tarot.position.label') }}</span>
               <span class="info-value">
-                {{ $t(`taro.position.${cardData?.position.toLowerCase()}`) }}
+                {{ $t(`tarot.position.${cardData?.position.toLowerCase()}`) }}
               </span>
             </div>
             <div class="info-item">
-              <span class="info-label">{{ $t('taro.orientation.label') }}</span>
+              <span class="info-label">{{ $t('tarot.orientation.label') }}</span>
               <span
                 class="info-value"
                 :class="{ 'text-warning': cardData?.orientation === 'REVERSED' }"
               >
-                {{ $t(`taro.orientation.${cardData?.orientation.toLowerCase()}`) }}
+                {{ $t(`tarot.orientation.${cardData?.orientation.toLowerCase()}`) }}
               </span>
             </div>
           </div>
 
           <!-- Card Meaning -->
           <div class="meaning-section">
-            <h3>{{ $t('taro.card.meaning') }}</h3>
+            <h3>{{ $t('tarot.card.meaning') }}</h3>
             <p class="meaning-text">
               {{
                 cardData?.orientation === 'REVERSED'
@@ -190,7 +190,7 @@
 
           <!-- AI Interpretation -->
           <div class="interpretation-section">
-            <h3>{{ $t('taro.interpretation') }}</h3>
+            <h3>{{ $t('tarot.interpretation') }}</h3>
             <p
               v-if="cardData?.interpretation"
               class="interpretation-text"
@@ -201,7 +201,7 @@
               v-else
               class="interpretation-loading"
             >
-              {{ $t('taro.interpretationNotYetGenerated') }}
+              {{ $t('tarot.interpretationNotYetGenerated') }}
             </p>
           </div>
 
@@ -229,8 +229,8 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import type { TaroCard } from '@/stores';
-import { useTaroStore } from '@/stores';
+import type { TarotCard } from '@/stores';
+import { useTarotStore } from '@/stores';
 
 interface Props {
   cardId: string;
@@ -245,15 +245,15 @@ defineEmits<{
   close: [];
 }>();
 
-const taroStore = useTaroStore();
-const cardData = ref<TaroCard | null>(null);
+const tarotStore = useTarotStore();
+const cardData = ref<TarotCard | null>(null);
 const loading = ref(false);
 const error = ref<string | null>(null);
 
 onMounted(() => {
   // Find card in current session
-  if (taroStore.currentSession?.cards) {
-    const found = taroStore.currentSession.cards.find((c) => c.card_id === props.cardId);
+  if (tarotStore.currentSession?.cards) {
+    const found = tarotStore.currentSession.cards.find((c) => c.card_id === props.cardId);
     if (found) {
       cardData.value = found;
       return;
@@ -261,7 +261,7 @@ onMounted(() => {
   }
 
   // Find in history
-  for (const session of taroStore.sessionHistory) {
+  for (const session of tarotStore.sessionHistory) {
     if (session.cards) {
       const found = session.cards.find((c) => c.card_id === props.cardId);
       if (found) {

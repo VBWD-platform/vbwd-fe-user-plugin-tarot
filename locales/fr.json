@@ -1,8 +1,8 @@
 {
   "nav": {
-    "taro": "Tarot"
+    "tarot": "Tarot"
   },
-  "taro": {
+  "tarot": {
     "title": "Lecture de Cartes de Tarot",
     "subtitle": "Obtenez des interprétations de tarot alimentées par l'IA et des perspectives",
     "dailyLimits": "Limites Quotidiennes",

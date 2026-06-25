@@ -4,7 +4,7 @@
  */
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { setActivePinia, createPinia } from 'pinia';
-import { useTaroStore } from '../stores/taro';
+import { useTarotStore } from '../stores/tarot';
 import { api } from '@/api';
 
 vi.mock('@/api');
@@ -16,7 +16,7 @@ describe('Oracle Conversation Flow', () => {
 
   describe('Card Opening (Reveal Mechanic)', () => {
     it('openCard should add card to openedCards set', async () => {
-      const store = useTaroStore();
+      const store = useTarotStore();
       const cardId = 'card-1';
 
       store.openCard(cardId);
@@ -25,7 +25,7 @@ describe('Oracle Conversation Flow', () => {
     });
 
     it('openCard on already-opened card should be idempotent', async () => {
-      const store = useTaroStore();
+      const store = useTarotStore();
       const cardId = 'card-1';
 
       store.openCard(cardId);
@@ -39,7 +39,7 @@ describe('Oracle Conversation Flow', () => {
     });
 
     it('allCardsOpened should be true when 3 cards opened', async () => {
-      const store = useTaroStore();
+      const store = useTarotStore();
 
       store.openCard('card-1');
       expect(store.allCardsOpened).toBe(false);
@@ -52,7 +52,7 @@ describe('Oracle Conversation Flow', () => {
     });
 
     it('should transition to asking_mode when all 3 cards opened', async () => {
-      const store = useTaroStore();
+      const store = useTarotStore();
       expect(store.oraclePhase).toBe('idle');
 
       store.openCard('card-1');
@@ -65,7 +65,7 @@ describe('Oracle Conversation Flow', () => {
 
   describe('Oracle Phase Transitions', () => {
     it('setOraclePhase should update phase', async () => {
-      const store = useTaroStore();
+      const store = useTarotStore();
 
       store.setOraclePhase('asking_situation');
       expect(store.oraclePhase).toBe('asking_situation');
@@ -80,7 +80,7 @@ describe('Oracle Conversation Flow', () => {
 
   describe('Conversation Messages', () => {
     it('addMessage should append message with timestamp', async () => {
-      const store = useTaroStore();
+      const store = useTarotStore();
 
       store.addMessage('oracle', 'Hello, seeker');
 
@@ -91,7 +91,7 @@ describe('Oracle Conversation Flow', () => {
     });
 
     it('should maintain conversation history', async () => {
-      const store = useTaroStore();
+      const store = useTarotStore();
 
       store.addMessage('oracle', 'Message 1');
       store.addMessage('user', 'Message 2');
@@ -106,7 +106,7 @@ describe('Oracle Conversation Flow', () => {
 
   describe('Situation Submission', () => {
     it('submitSituation should validate word count (≤ 100 words)', async () => {
-      const store = useTaroStore();
+      const store = useTarotStore();
 
       // Create text with 101 words
       const tooLongText = Array(101).fill('word').join(' ');
@@ -115,7 +115,7 @@ describe('Oracle Conversation Flow', () => {
     });
 
     it('submitSituation should accept ≤ 100 words', async () => {
-      const store = useTaroStore();
+      const store = useTarotStore();
       const validText = Array(100).fill('word').join(' ');
 
       // Mock API response
@@ -139,14 +139,14 @@ describe('Oracle Conversation Flow', () => {
     });
 
     it('submitSituation should fail on empty text', async () => {
-      const store = useTaroStore();
+      const store = useTarotStore();
 
       await expect(store.submitSituation('')).rejects.toThrow();
       await expect(store.submitSituation('   ')).rejects.toThrow();
     });
 
     it('submitSituation should call API endpoint', async () => {
-      const store = useTaroStore();
+      const store = useTarotStore();
       const situationText = 'I face a career decision';
 
       store.currentSession = {
@@ -166,13 +166,13 @@ describe('Oracle Conversation Flow', () => {
       await store.submitSituation(situationText);
 
       expect(api.post).toHaveBeenCalledWith(
-        '/taro/session/test-session/situation',
+        '/tarot/session/test-session/situation',
         { situation_text: situationText }
       );
     });
 
     it('submitSituation should transition to reading phase', async () => {
-      const store = useTaroStore();
+      const store = useTarotStore();
       const situationText = 'My situation';
 
       store.currentSession = {
@@ -197,7 +197,7 @@ describe('Oracle Conversation Flow', () => {
     });
 
     it('submitSituation should add Oracle message to conversation', async () => {
-      const store = useTaroStore();
+      const store = useTarotStore();
       const situationText = 'My situation';
       const oracleResponse = 'The cards speak clearly...';
 
@@ -226,7 +226,7 @@ describe('Oracle Conversation Flow', () => {
 
   describe('Store Integration', () => {
     it('should reset oracle state', async () => {
-      const store = useTaroStore();
+      const store = useTarotStore();
 
       store.openCard('card-1');
       store.openCard('card-2');

@@ -1,6 +1,6 @@
-# taro (fe-user plugin)
+# tarot (fe-user plugin)
 
-Taro subscription onboarding — guided session flow for new subscribers.
+Tarot subscription onboarding — guided session flow for new subscribers.
 
 ## Routes
 
@@ -8,7 +8,7 @@ Registered via `sdk.addRoute` in `index.ts`. See `src/views/` for the exact path
 
 ## Store
 
-`src/stores/useTaroStore.ts` — session state and step management.
+`src/stores/useTarotStore.ts` — session state and step management.
 
 ---
 
@@ -16,7 +16,7 @@ Registered via `sdk.addRoute` in `index.ts`. See `src/views/` for the exact path
 
 | | Repository |
 |-|------------|
-| 🖥 Backend | [vbwd-plugin-taro](https://github.com/VBWD-platform/vbwd-plugin-taro) |
-| 🛠 Frontend (admin) | [vbwd-fe-admin-plugin-taro](https://github.com/VBWD-platform/vbwd-fe-admin-plugin-taro) |
+| 🖥 Backend | [vbwd-plugin-tarot](https://github.com/VBWD-platform/vbwd-plugin-tarot) |
+| 🛠 Frontend (admin) | [vbwd-fe-admin-plugin-tarot](https://github.com/VBWD-platform/vbwd-fe-admin-plugin-tarot) |
 
 **Core:** [vbwd-fe-user](https://github.com/VBWD-platform/vbwd-fe-user) · [vbwd-fe-core](https://github.com/VBWD-platform/vbwd-fe-core)

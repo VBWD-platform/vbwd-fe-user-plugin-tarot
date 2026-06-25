@@ -4,7 +4,7 @@
     data-testid="daily-limits-card"
   >
     <div class="card-header">
-      <h2>{{ $t('taro.dailyLimits') }}</h2>
+      <h2>{{ $t('tarot.dailyLimits') }}</h2>
       <button
         :disabled="loading"
         class="btn-icon"
@@ -26,11 +26,11 @@
 
     <div class="limits-content">
       <div class="limit-item">
-        <span class="label">{{ $t('taro.dailyTotal') }}</span>
+        <span class="label">{{ $t('tarot.dailyTotal') }}</span>
         <span class="value">{{ dailyTotal }}</span>
       </div>
       <div class="limit-item">
-        <span class="label">{{ $t('taro.dailyRemaining') }}</span>
+        <span class="label">{{ $t('tarot.dailyRemaining') }}</span>
         <span
           class="value highlight"
           :class="{ 'text-warning': sessionsRemaining === 0 }"
@@ -39,7 +39,7 @@
         </span>
       </div>
       <div class="limit-item">
-        <span class="label">{{ $t('taro.planName') }}</span>
+        <span class="label">{{ $t('tarot.planName') }}</span>
         <span class="value">{{ planName }}</span>
       </div>
     </div>
