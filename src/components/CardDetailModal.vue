@@ -253,7 +253,7 @@ const error = ref<string | null>(null);
 onMounted(() => {
   // Find card in current session
   if (tarotStore.currentSession?.cards) {
-    const found = tarotStore.currentSession.cards.find((c) => c.card_id === props.cardId);
+    const found = tarotStore.currentSession.cards.find((c: TarotCard) => c.card_id === props.cardId);
     if (found) {
       cardData.value = found;
       return;
@@ -263,7 +263,7 @@ onMounted(() => {
   // Find in history
   for (const session of tarotStore.sessionHistory) {
     if (session.cards) {
-      const found = session.cards.find((c) => c.card_id === props.cardId);
+      const found = session.cards.find((c: TarotCard) => c.card_id === props.cardId);
       if (found) {
         cardData.value = found;
         return;

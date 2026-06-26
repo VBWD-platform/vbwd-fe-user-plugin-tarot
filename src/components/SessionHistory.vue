@@ -166,7 +166,7 @@
 </template>
 
 <script setup lang="ts">
-import type { TarotSession } from '@/stores';
+import type { TarotCard, TarotSession } from '@/stores';
 import { defineProps, defineEmits } from 'vue';
 
 interface Props {
@@ -203,7 +203,7 @@ const formatDate = (dateString: string): string => {
 };
 
 const hasInterpretations = (session: TarotSession): boolean => {
-  return session.cards?.some((card) => card.interpretation) ?? false;
+  return session.cards?.some((card: TarotCard) => card.interpretation) ?? false;
 };
 </script>
 
