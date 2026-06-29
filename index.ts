@@ -14,7 +14,7 @@ import zh from './locales/zh.json';
  */
 export const tarotPlugin: IPlugin = {
   name: 'tarot',
-  version: '26.6',
+  version: '26.6.1',
   description: 'Tarot card reading with AI-powered interpretations',
   _active: false,
 
