@@ -42,6 +42,7 @@ export const tarotPlugin: IPlugin = {
     userNavRegistry.register({
       pluginName: 'tarot',
       to: '/dashboard/tarot',
+      icon: 'sparkles',
       labelKey: 'nav.tarot',
       testId: 'nav-tarot',
     });
