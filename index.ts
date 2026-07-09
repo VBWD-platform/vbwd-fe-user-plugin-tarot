@@ -45,6 +45,9 @@ export const tarotPlugin: IPlugin = {
       icon: 'sparkles',
       labelKey: 'nav.tarot',
       testId: 'nav-tarot',
+      // Only users whose access levels grant the reading permission see the
+      // burger-menu entry (the level is granted via the plan's Features).
+      requiredUserPermission: 'tarot.reading.view',
     });
   },
 
